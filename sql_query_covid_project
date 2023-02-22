@@ -1,0 +1,336 @@
+SELECT *
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE continent is not NULL
+  
+ SELECT Location, date, total_cases, new_cases, total_deaths, population
+ FROM [PortfolioProject].[dbo].[covid_data]
+ WHERE continent is not NULL
+ order by 1,2
+
+ -- Looking at Total Cases vs Total Deaths
+ -- shows likelihood of dying if you contract covid in your country, here we did it for India, United Staes, China, Itali
+ SELECT Location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like 'India'
+  and continent is not NULL
+ order by 1,2
+
+
+SELECT Location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like 'China'
+  and continent is not NULL
+ order by 1,2
+
+ SELECT Location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like 'Italy'
+  and continent is not NULL
+ order by 1,2
+
+-- Looking at Total Cases Vs Population
+--shows what percentage of population got covid
+SELECT Location, date, total_cases, population, (total_cases/population)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like 'India'
+  and continent is not NULL
+  order by 1,2
+
+ SELECT Location, date, total_cases, population, (total_cases/population)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%states%'
+  and continent is not NULL
+ order by 1,2
+
+ SELECT Location, date, total_cases, population, (total_cases/population)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like 'china'
+  and continent is not NULL
+ order by 1,2
+ SELECT Location, date, total_cases, population, (total_cases/population)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like 'italy'
+  and continent is not NULL
+ order by 1,2
+
+ -- Looking at countries with highest infection rate compared to population
+
+ SELECT Location, Population, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/Population))*100 as PercentPopulationInfected
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like 'India'
+  Group By Location, Population
+ order by PercentPopulationInfected DESC
+
+ SELECT Location, Population, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/Population))*100 as PercentPopulationInfected
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like 'china'
+  Group By Location, Population
+ order by PercentPopulationInfected DESC
+
+ SELECT Location, Population, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/Population))*100 as PercentPopulationInfected
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like '%STATES%'
+  Group By Location, Population
+ order by PercentPopulationInfected DESC
+
+ SELECT Location, Population, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/Population))*100 as PercentPopulationInfected
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like 'Italy'
+  Group By Location, Population
+ order by PercentPopulationInfected DESC
+
+ -- showing countries with Highest Death Count per Population
+
+ SELECT Location, MAX(total_deaths) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like 'India'
+  WHERE continent is not NULL
+  Group By Location
+ order by TotalDeathCount DESC
+
+ SELECT Location, MAX(total_deaths) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like '%states%'
+  WHERE continent is not NULL
+  Group By Location
+ order by TotalDeathCount DESC
+
+ SELECT Location, MAX(cast(total_deaths as int)) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like '%states%'
+  WHERE continent is not NULL
+  Group By Location
+ order by TotalDeathCount DESC
+
+--Lets break things by Continent
+
+SELECT continent, MAX(cast(total_deaths as int)) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like '%states%'
+  WHERE continent is not NULL
+  Group By Continent
+ order by TotalDeathCount DESC
+
+ when you put this query you can see north america shows only unites states total death count or asia shows Indias total death COUNT
+ so run new query 
+
+ SELECT Location, MAX(cast(total_deaths as int)) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like '%states%'
+  WHERE continent is NULL
+  Group By Location
+ order by TotalDeathCount DESC
+
+SELECT Location
+ FROM [PortfolioProject].[dbo].[covid_data]
+ WHERE Location = 'upper middle income' 
+ and continent is NULL
+ 
+SELECT continent, MAX(cast(total_deaths as int)) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like '%states%'
+  WHERE continent is not NULL
+  Group By continent
+ order by TotalDeathCount DESC
+
+ SELECT continent, MAX(cast(total_deaths as int)) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like 'india'
+  WHERE continent is not NULL
+  Group By continent
+ order by TotalDeathCount DESC
+
+ --SHOWING CONTINENTS WITH THE HIGHEST DEATH COUNT PER POPULATION
+
+  SELECT continent, MAX(cast(total_deaths as int)) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like 'india'
+  WHERE continent is not NULL
+  Group By continent
+ order by TotalDeathCount DESC
+
+ SELECT continent, MAX(cast(total_deaths as int)) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like 'italy'
+  WHERE continent is not NULL
+  Group By continent
+ order by TotalDeathCount DESC
+
+
+ SELECT continent, MAX(cast(total_deaths as int)) as TotalDeathCount
+  FROM [PortfolioProject].[dbo].[covid_data]
+  --WHERE Location like '%STATES%'
+  WHERE continent is not NULL
+  Group By continent
+ order by TotalDeathCount DESC
+
+ --GLOBAL NUMBERS United States, India and Italy
+
+  SELECT date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%STATES%'
+  and continent is not NULL
+ order by 1,2
+
+SELECT date, SUM(new_cases)--, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%states%'
+  and continent is not NULL
+  GROUP BY date
+ order by 1,2
+
+-- if your datatype is not float and you need to convert that to int you need to use CAST function
+SELECT date, SUM(new_cases) as total_cases, SUM(cast(new_deaths as int)) as total_deaths, SUM(cast(new_deaths as int))/ SUM(new_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%STATES%'
+  and continent is not NULL
+  GROUP BY date
+ order by 1,2 
+
+-- for this data type is float so no need to use cast funtion
+SELECT date, SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/ SUM(new_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%STATES%'
+  and continent is not NULL
+  GROUP BY date
+ order by 1,2 
+
+--used cast function, to convert data type to int
+ SELECT SUM(new_cases) as total_cases, SUM(cast(new_deaths as int)) as total_deaths, SUM(cast(new_deaths as int))/ SUM(new_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%STATES%'
+  and continent is not NULL
+  --GROUP BY date
+ order by 1,2 
+
+--did not use cast function
+SELECT SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/ SUM(new_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%STATES%'
+  and continent is not NULL
+  --GROUP BY date
+ order by 1,2 
+
+SELECT date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%India%'
+  and continent is not NULL
+ order by 1,2
+
+ SELECT date, SUM(new_cases)--, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%india%'
+  and continent is not NULL
+  GROUP BY date
+ order by 1,2
+
+
+ SELECT SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/ SUM(new_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like 'india'
+  and continent is not NULL
+  --GROUP BY date
+ order by 1,2 
+
+
+
+ SELECT date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%italy%'
+  and continent is not NULL
+ order by 1,2
+
+ SELECT date, SUM(new_cases)--, total_deaths, (total_deaths/total_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like '%italy%'
+  and continent is not NULL
+  GROUP BY date
+ order by 1,2
+
+
+ SELECT SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/ SUM(new_cases)*100 as DEATHPERCENTAGE
+  FROM [PortfolioProject].[dbo].[covid_data]
+  WHERE Location like 'italy'
+  and continent is not NULL
+  --GROUP BY date
+ order by 1,2 
+
+
+
+ --Looking at TOTALPOPULATION vs VACCINATIONS
+
+ SELECT continent, location, date, population, new_vaccinations
+ FROM [PortfolioProject].[dbo].[covid_data]
+ WHERE continent is not null
+
+ SELECT continent, location, date, population, new_vaccinations, SUM(new_vaccinations) OVER (partition by location ORDER BY location, date) as A
+ FROM [PortfolioProject].[dbo].[covid_data]
+ WHERE continent is not null
+ 
+ --By above query you get sum of rollingpeoplevaccinated as A
+ --now we want to know how much percentage of people are vaccinated in population 
+--so, sum(new_vaccination)/population*100 as B
+
+
+ SELECT continent, location, date, population, new_vaccinations, 
+ SUM(new_vaccinations) OVER (partition by location ORDER BY location, date) as A,
+ (SUM(new_vaccinations) OVER (partition by location ORDER BY location, date)/population*100) as B
+ FROM [PortfolioProject].[dbo].[covid_data]
+ WHERE continent is not null
+ --order by 2,3
+
+ --TEMP TABLE
+--I run each query separately
+Drop Table if exists percentpopulationvac
+Create TABLE percentpopulationvac
+(
+    Continent nvarchar(255),
+    Location nvarchar(255),
+    VDate date,
+    Population FLOAT,
+    new_vaccinations FLOAT,
+    A FLOAT,
+    B FLOAT
+)
+ insert INTO percentpopulationvac
+  SELECT continent, 
+  location, 
+  date, 
+  population, 
+  new_vaccinations, 
+ SUM(new_vaccinations) OVER (partition by location ORDER BY location, date),
+ SUM(new_vaccinations) OVER (partition by location ORDER BY location, date)/population*100
+ FROM [PortfolioProject].[dbo].[covid_data]
+ --WHERE continent is not null
+ --order by 2,3
+  
+  SELECT *
+  FROM percentpopulationvac
+ 
+
+--vaccination percentage in India, United states, Italy
+SELECT *
+  FROM percentpopulationvac
+  Where Location = 'India'
+
+ SELECT *
+  FROM percentpopulationvac
+  Where Location = 'italy'
+
+  SELECT *
+  FROM percentpopulationvac
+  Where Location = 'United States'
+
+  --Creating view to store data for later visualizations
+
+  create view PercentPopulationVaccinated as
+  SELECT continent, 
+  location, 
+  date, 
+  population, 
+  new_vaccinations, 
+ SUM(new_vaccinations) OVER (partition by location ORDER BY location, date) A,
+ SUM(new_vaccinations) OVER (partition by location ORDER BY location, date)/population*100 as B
+ FROM [PortfolioProject].[dbo].[covid_data]
+ WHERE continent is not null
+ --order by 2,3
